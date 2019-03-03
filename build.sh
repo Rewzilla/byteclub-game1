@@ -1,6 +1,7 @@
 #!/bin/bash
 
-SERVICES=$(ls /usr/local/src/)
+BASEDIR=$(pwd)
+SERVICES=$(ls src/)
 
 output() {
 	echo -e "\e[35;1m>> $1\e[0m"
@@ -10,12 +11,12 @@ for S in $SERVICES; do
 
 	output "Building ${S}"
 
-	cd /usr/local/src/${S}/
+	cd $BASEDIR/src/${S}/
 	V=$(cat VERSION)
 	PKG="${S}_${V}"
 	make
 
-	cd /tmp/
+	cd $BASEDIR/build/
 
 	mkdir ${PKG}
 	mkdir ${PKG}/usr
@@ -25,8 +26,8 @@ for S in $SERVICES; do
 	mkdir ${PKG}/etc/systemd
 	mkdir ${PKG}/etc/systemd/system
 
-	cp /usr/local/src/${S}/${S} ${PKG}/usr/local/bin/
-	cp /usr/local/src/${S}/${S}.service ${PKG}/etc/systemd/system/
+	cp $BASEDIR/src/${S}/${S} ${PKG}/usr/local/bin/
+	cp $BASEDIR/src/${S}/${S}.service ${PKG}/etc/systemd/system/
 
 	mkdir ${PKG}/DEBIAN
 	(

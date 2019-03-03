@@ -1,2 +1,3 @@
-httpd/httpd
-shd/shd
+build/*
+src/httpd/httpd
+src/shd/shd
