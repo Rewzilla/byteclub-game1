@@ -7,22 +7,43 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
+#include "pamauthcheck.h"
 
 #define LISTEN_HOST		"0.0.0.0"
-#define LISTEN_PORT		23
+#define LISTEN_PORT		2323
 #ifndef VERSION
 #define VERSION			"(unknown)"
 #endif
 
-int authenticate(int conn) {
+void get_line(int conn, char *buff) {
 
-	write(conn, "Username: ", 10);
+	int i = -1;
 
-	write(conn, "Password: ", 10);
+	do {
+		i++;
+		read(conn, &buff[i], 1);
+	} while (buff[i] != '\n');
+
+	buff[i] = '\0';
 
 }
 
-void handle_client() {
+int authenticate(int conn) {
+
+	char username[64];
+	char password[64];
+
+	write(conn, "Username: ", 10);
+	get_line(conn, (char *)&username);
+
+	write(conn, "Password: ", 10);
+	get_line(conn, (char *)&password);
+
+	return pam_auth_check(username, password);
+
+}
+
+void handle_client(int conn) {
 
 	char banner[] =
 		"Welcome to SHd " VERSION "\n"
@@ -36,7 +57,7 @@ void handle_client() {
 		return;
 	}
 
-	
+	write(conn, "Login succeded!\n", 16);
 
 }
 
