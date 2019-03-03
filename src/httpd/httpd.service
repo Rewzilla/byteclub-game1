@@ -1,0 +1,10 @@
+[Unit]
+Description=httpd
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/httpd
+Type=simple
+
+[Install]
+WantedBy=default.target

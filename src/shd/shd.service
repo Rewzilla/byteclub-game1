@@ -1,0 +1,10 @@
+[Unit]
+Description=shd
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/shd
+Type=simple
+
+[Install]
+WantedBy=default.target
