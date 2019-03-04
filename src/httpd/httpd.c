@@ -8,6 +8,8 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 
+#define RUNAS_UID		33
+#define RUNAS_GID		33
 #define LISTEN_HOST		"0.0.0.0"
 #define LISTEN_PORT		80
 #define WWW_DIR			"/var/www/"
@@ -216,6 +218,9 @@ int main() {
 		perror("bind");
 		exit(-1);
 	}
+
+	setuid(RUNAS_UID);
+	setgid(RUNAS_GID);
 
 	listen(sock, 10);
 	len = sizeof(csin);

@@ -3,7 +3,7 @@ CC			:= gcc
 CFLAGS		:= -Wall -zexecstack -fno-stack-protector -fno-pie -no-pie -DVERSION='"$(shell cat VERSION)"'
 
 all:
-	$(CC) $(CFLAGS) pamauthcheck.c shd.c -o shd -lpam
+	$(CC) $(CFLAGS) pamauthcheck.c shd.c -o shd -lpam -lutil
 
 clean:
 	rm -rf shd

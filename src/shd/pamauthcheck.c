@@ -30,16 +30,16 @@ int pam_auth_check(const char *username, const char *password) {
 	reply[0].resp_retcode = 0;
 	retval = pam_authenticate(local_auth_handle, 0);
 
-//	free(reply[0].resp);
-//	free(reply);
+	free(reply[0].resp);
+	free(reply);
 
 	if (retval != PAM_SUCCESS)
 		return 0;
 
 	retval = pam_end(local_auth_handle, retval);
 
-//	if (retval != PAM_SUCCESS)
-//		return 0;
+	if (retval != PAM_SUCCESS)
+		return 0;
 
 	return 1;
 
