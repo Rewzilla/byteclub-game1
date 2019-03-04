@@ -12,7 +12,7 @@
 #define RUNAS_GID		33
 #define LISTEN_HOST		"0.0.0.0"
 #define LISTEN_PORT		80
-#define WWW_DIR			"/var/www/"
+#define WWW_DIR			"/var/httpd/"
 #ifndef VERSION
 #define VERSION			"(unknown)"
 #endif

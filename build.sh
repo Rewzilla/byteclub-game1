@@ -25,6 +25,8 @@ for S in $SERVICES; do
 	mkdir ${PKG}/etc
 	mkdir ${PKG}/etc/systemd
 	mkdir ${PKG}/etc/systemd/system
+	mkdir ${PKG}/var
+	mkdir ${PKG}/var/${S}
 
 	cp $BASEDIR/src/${S}/${S} ${PKG}/usr/local/bin/
 	cp $BASEDIR/src/${S}/${S}.service ${PKG}/etc/systemd/system/

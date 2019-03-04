@@ -1,0 +1,10 @@
+[Unit]
+Description=statd
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/statd
+Type=simple
+
+[Install]
+WantedBy=default.target

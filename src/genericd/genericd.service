@@ -1,0 +1,10 @@
+[Unit]
+Description=genericd
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/genericd
+Type=simple
+
+[Install]
+WantedBy=default.target

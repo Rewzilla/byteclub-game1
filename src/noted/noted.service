@@ -1,0 +1,10 @@
+[Unit]
+Description=noted
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/noted
+Type=simple
+
+[Install]
+WantedBy=default.target
