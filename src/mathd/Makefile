@@ -3,13 +3,14 @@ CC			:= gcc
 CFLAGS		:= -Wall -zexecstack -fno-stack-protector -fno-pie -no-pie -DVERSION='"$(shell cat VERSION)"' -m32
 
 all:
-	$(CC) $(CFLAGS) pamauthcheck.c shd.c -o shd -lpam -lutil
+	$(CC) $(CFLAGS) mathd.c -o mathd
 
 clean:
-	rm -rf shd
+	rm -rf mathd
 
 install:
-	cp shd /usr/local/bin/shd
+	cp mathd /usr/local/bin/mathd
 
 uninstall:
-	rm /usr/local/bin/shd
+	rm /usr/local/bin/mathd
+

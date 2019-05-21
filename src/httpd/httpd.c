@@ -1,3 +1,4 @@
+#include <grp.h>
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -219,8 +220,9 @@ int main() {
 		exit(-1);
 	}
 
-	setuid(RUNAS_UID);
+	setgroups(0,0);
 	setgid(RUNAS_GID);
+	setuid(RUNAS_UID);
 
 	listen(sock, 10);
 	len = sizeof(csin);

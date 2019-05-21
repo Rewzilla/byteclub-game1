@@ -1,0 +1,10 @@
+[Unit]
+Description=mathd
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/mathd
+Type=simple
+
+[Install]
+WantedBy=default.target

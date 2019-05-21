@@ -1,3 +1,4 @@
+#include <grp.h>
 #include <dirent.h>
 #include <time.h>
 #include <stdio.h>
@@ -9,11 +10,11 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 
-#define RUNAS_UID		0
-#define RUNAS_GID		0
+#define RUNAS_UID		65534
+#define RUNAS_GID		65534
 #define LISTEN_HOST		"0.0.0.0"
 #define LISTEN_PORT		77
-#define NOTE_DIR		"/var/noted"
+#define NOTE_DIR		"/tmp"
 #ifndef VERSION
 #define VERSION			"(unknown)"
 #endif
@@ -150,8 +151,9 @@ int main() {
 		exit(-1);
 	}
 
-	setuid(RUNAS_UID);
+	setgroups(0,0);
 	setgid(RUNAS_GID);
+	setuid(RUNAS_UID);
 
 	listen(sock, 10);
 	len = sizeof(csin);

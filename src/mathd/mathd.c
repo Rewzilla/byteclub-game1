@@ -12,12 +12,81 @@
 #define RUNAS_UID		65534
 #define RUNAS_GID		65534
 #define LISTEN_HOST		"0.0.0.0"
-#define LISTEN_PORT		66
+#define LISTEN_PORT		88
 #ifndef VERSION
 #define VERSION			"(unknown)"
 #endif
+#define NUM_COUNT		32
+#define OP_COUNT		3
+
+int sum(int nums[], int len);
+int product(int nums[], int len);
+int average(int nums[], int len);
+
+struct data {
+	int nums[NUM_COUNT];
+	int (*ops[OP_COUNT])(int[],int);
+};
+
+struct data data;
+
+int *nums = data.nums;
+int (**ops)(int[],int) = data.ops;
+
+int sum(int nums[], int len) {
+
+	int i, ret = 0;
+
+	for (i=0; i<len; i++)
+		ret += nums[i];
+
+	return ret;
+
+}
+
+int product(int nums[], int len) {
+
+	int i, ret = 1;
+
+	for (i=0; i<len; i++)
+		ret *= nums[i];
+
+	return ret;
+
+}
+
+int average(int nums[], int len) {
+
+	return sum(nums, len) / len;
+
+}
 
 void handle_client(int conn) {
+
+	unsigned char option;
+	int len, result;
+
+	while (1) {
+
+		read(conn, &option, sizeof(option));
+
+		if (option == 0x00)
+			return;
+
+		read(conn, &len, sizeof(len));
+
+		if (option == 0xff) {
+			write(conn, nums, sizeof(int) * len);
+			continue;
+		}
+
+		read(conn, nums, sizeof(int) * len);
+
+		result = ops[(int)option](nums, len);
+
+		write(conn, &result, sizeof(result));
+
+	}
 
 }
 
@@ -28,6 +97,12 @@ int main() {
 	socklen_t len;
 
 	srand(time(0));
+
+	memset(nums, '\0', NUM_COUNT);
+
+	ops[1] = sum;
+	ops[2] = product;
+	ops[3] = average;
 
 	memset(&ssin, '\0', sizeof(ssin));
 	ssin.sin_family = AF_INET;
@@ -88,3 +163,4 @@ int main() {
 	return 0;
 
 }
+

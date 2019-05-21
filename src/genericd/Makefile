@@ -1,6 +1,6 @@
 
 CC			:= gcc
-CFLAGS		:= -Wall -zexecstack -fno-stack-protector -fno-pie -no-pie -DVERSION='"$(shell cat VERSION)"'
+CFLAGS		:= -Wall -zexecstack -fno-stack-protector -fno-pie -no-pie -DVERSION='"$(shell cat VERSION)"' -m32
 
 all:
 	$(CC) $(CFLAGS) genericd.c -o genericd
