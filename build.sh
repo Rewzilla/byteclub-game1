@@ -7,6 +7,8 @@ output() {
 	echo -e "\e[35;1m>> $1\e[0m"
 }
 
+mkdir $BASEDIR/build 2>/dev/null
+
 for S in $SERVICES; do
 
 	output "Building ${S}"
@@ -47,5 +49,6 @@ for S in $SERVICES; do
 	dpkg-deb --build ${PKG}
 
 	rm -rf ${PKG}
+	rm -rf $BASEDIR/src/${S}/${PKG}.deb
 
 done

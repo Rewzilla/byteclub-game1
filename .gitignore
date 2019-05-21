@@ -3,3 +3,4 @@
 build/*
 src/httpd/httpd
 src/shd/shd
+src/statd/statd
