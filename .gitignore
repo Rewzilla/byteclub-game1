@@ -1,6 +1,10 @@
 *.swp
 *.save
 build/*
+src/genericd/genericd
 src/httpd/httpd
 src/shd/shd
 src/statd/statd
+src/mathd/mathd
+src/noted/noted
+src/fingerd/fingerd

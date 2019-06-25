@@ -1,6 +1,6 @@
 
 CC			:= gcc
-CFLAGS		:= -Wall -zexecstack -fno-stack-protector -fno-pie -no-pie -DVERSION='"$(shell cat VERSION)"' -m32
+CFLAGS		:= -Wall -zexecstack -fno-stack-protector -fno-pie -no-pie -DVERSION='"$(shell cat VERSION)"' -s
 
 all:
 	$(CC) $(CFLAGS) pamauthcheck.c shd.c -o shd -lpam -lutil
