@@ -12,7 +12,7 @@
 #include "pamauthcheck.h"
 
 #define LISTEN_HOST		"0.0.0.0"
-#define LISTEN_PORT		23
+#define LISTEN_PORT		666
 #ifndef VERSION
 #define VERSION			"(unknown)"
 #endif

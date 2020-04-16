@@ -3,7 +3,7 @@ Description=mathd
 After=network.target
 
 [Service]
-ExecStart=/usr/local/bin/mathd
+ExecStart=/usr/bin/mathd
 Type=simple
 
 [Install]

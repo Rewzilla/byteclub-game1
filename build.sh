@@ -1,7 +1,12 @@
 #!/bin/bash
 
 BASEDIR=$(pwd)
-SERVICES=$(ls src/)
+
+if [ $# == 1 ]; then
+	SERVICES="$1"
+else
+	SERVICES=$(ls src/)
+fi
 
 output() {
 	echo -e "\e[35;1m>> $1\e[0m"
@@ -11,9 +16,14 @@ mkdir $BASEDIR/build 2>/dev/null
 
 for S in $SERVICES; do
 
+	if [ "${S}" == "genericd" ]; then
+		continue
+	fi
+
 	output "Building ${S}"
 
 	cd $BASEDIR/src/${S}/
+	ID=$(cat ID)
 	V=$(cat VERSION)
 	PKG="${S}_${V}"
 	make
@@ -22,15 +32,16 @@ for S in $SERVICES; do
 
 	mkdir ${PKG}
 	mkdir ${PKG}/usr
-	mkdir ${PKG}/usr/local
-	mkdir ${PKG}/usr/local/bin
+	mkdir ${PKG}/usr/bin
 	mkdir ${PKG}/etc
 	mkdir ${PKG}/etc/systemd
 	mkdir ${PKG}/etc/systemd/system
 	mkdir ${PKG}/var
 	mkdir ${PKG}/var/${S}
+	chown root:$ID ${PKG}/var/${S}
+	chmod 770 ${PKG}/var/${S}
 
-	cp $BASEDIR/src/${S}/${S} ${PKG}/usr/local/bin/
+	cp $BASEDIR/src/${S}/${S} ${PKG}/usr/bin/
 	cp $BASEDIR/src/${S}/${S}.service ${PKG}/etc/systemd/system/
 
 	mkdir ${PKG}/DEBIAN
@@ -51,4 +62,9 @@ for S in $SERVICES; do
 	rm -rf ${PKG}
 	rm -rf $BASEDIR/src/${S}/${PKG}.deb
 
+	cp $BASEDIR/build/${PKG}.deb /var/www/html/debian/
+
 done
+
+cd /var/www/html/debian
+dpkg-scanpackages . | gzip -c9 > Packages.gz

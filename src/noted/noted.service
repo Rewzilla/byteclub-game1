@@ -3,7 +3,7 @@ Description=noted
 After=network.target
 
 [Service]
-ExecStart=/usr/local/bin/noted
+ExecStart=/usr/bin/noted
 Type=simple
 
 [Install]

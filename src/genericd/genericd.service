@@ -3,7 +3,7 @@ Description=genericd
 After=network.target
 
 [Service]
-ExecStart=/usr/local/bin/genericd
+ExecStart=/usr/bin/genericd
 Type=simple
 
 [Install]

@@ -3,7 +3,7 @@ Description=httpd
 After=network.target
 
 [Service]
-ExecStart=/usr/local/bin/httpd
+ExecStart=/usr/bin/httpd
 Type=simple
 
 [Install]

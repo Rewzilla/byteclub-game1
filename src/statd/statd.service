@@ -3,7 +3,7 @@ Description=statd
 After=network.target
 
 [Service]
-ExecStart=/usr/local/bin/statd
+ExecStart=/usr/bin/statd
 Type=simple
 
 [Install]

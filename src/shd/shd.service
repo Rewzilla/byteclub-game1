@@ -3,7 +3,7 @@ Description=shd
 After=network.target
 
 [Service]
-ExecStart=/usr/local/bin/shd
+ExecStart=/usr/bin/shd
 Type=simple
 
 [Install]

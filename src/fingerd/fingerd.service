@@ -3,7 +3,7 @@ Description=fingerd
 After=network.target
 
 [Service]
-ExecStart=/usr/local/bin/fingerd
+ExecStart=/usr/bin/fingerd
 Type=simple
 
 [Install]

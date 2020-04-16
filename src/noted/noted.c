@@ -10,10 +10,10 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 
-#define RUNAS_UID		65534
-#define RUNAS_GID		65534
+#define RUNAS_UID		555
+#define RUNAS_GID		555
 #define LISTEN_HOST		"0.0.0.0"
-#define LISTEN_PORT		77
+#define LISTEN_PORT		555
 #define NOTE_DIR		"/tmp"
 #ifndef VERSION
 #define VERSION			"(unknown)"
