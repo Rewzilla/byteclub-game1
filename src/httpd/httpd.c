@@ -55,7 +55,7 @@ void do_GET(int conn, char *path) {
 	char *p, *r;
 	int len;
 
-	p = malloc(strlen(WWW_DIR) + strlen(path) + 1);
+	p = malloc(strlen(WWW_DIR) + strlen(path));
 	strcpy(p, WWW_DIR);
 	strcat(p, path);
 
@@ -95,7 +95,7 @@ void do_POST(int conn, char *path, char *data) {
 	char *p, *r, name[16] = {0};
 	int len;
 
-	p = malloc(strlen(WWW_DIR) + strlen(path) + 1);
+	p = malloc(strlen(WWW_DIR) + strlen(path));
 	strcpy(p, WWW_DIR);
 	strcat(p, path);
 

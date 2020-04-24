@@ -33,6 +33,8 @@ for S in $SERVICES; do
 	mkdir ${PKG}
 	mkdir ${PKG}/usr
 	mkdir ${PKG}/usr/bin
+	mkdir ${PKG}/usr/share
+	mkdir ${PKG}/usr/share/${S}
 	mkdir ${PKG}/etc
 	mkdir ${PKG}/etc/systemd
 	mkdir ${PKG}/etc/systemd/system
@@ -42,6 +44,8 @@ for S in $SERVICES; do
 	chmod 770 ${PKG}/var/${S}
 
 	cp $BASEDIR/src/${S}/${S} ${PKG}/usr/bin/
+	cp $BASEDIR/src/${S}/VERSION ${PKG}/usr/share/${S}/
+	cp $BASEDIR/src/${S}/CHANGELOG ${PKG}/usr/share/${S}/
 	cp $BASEDIR/src/${S}/${S}.service ${PKG}/etc/systemd/system/
 
 	mkdir ${PKG}/DEBIAN

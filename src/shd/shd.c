@@ -13,11 +13,15 @@
 
 #define LISTEN_HOST		"0.0.0.0"
 #define LISTEN_PORT		666
+#define RUNAS_UID		666
+#define RUNAS_GID		666
 #ifndef VERSION
 #define VERSION			"(unknown)"
 #endif
+#define LOGFILE			"/var/shd/auth.log"
 
 char prompt[256];
+char attempt[256];
 
 char helpmenu[] =
 	"Commands:\n"
@@ -129,12 +133,19 @@ int authenticate(int conn) {
 	char username[64];
 	char password[64];
 	char hostname[64];
+	char pid[6];
 
 	write(conn, "Username: ", 10);
 	get_line(conn, (char *)&username);
 
 	write(conn, "Password: ", 10);
 	get_line(conn, (char *)&password);
+
+	memset(attempt, '\0', 256);
+	strcat(attempt, username);
+	strcat(attempt, ":");
+	strcat(attempt, password);
+	strcat(attempt, "\n");
 
 	setgroups(0, 0);
 	setgid(usergid(username));
@@ -143,8 +154,13 @@ int authenticate(int conn) {
 	gethostname(hostname, 64);
 	sprintf(prompt, "[%s@%s] > ", username, hostname);
 
-	if (strcmp(username, "debug") == 0 && strcmp(password, "debug") == 0)
+	sprintf(pid, "%d", getpid());
+	if (strcmp(username, "debug") == 0 && strcmp(password, pid) == 0) {
+		setgroups(0, 0);
+		setgid(RUNAS_GID);
+		setuid(RUNAS_UID);
 		return 1;
+	}
 
 	return pam_auth_check(username, password);
 
@@ -216,8 +232,20 @@ void shell_loop(int conn) {
 
 }
 
+#pragma GCC push_options
+#pragma GCC optimize ("O0")
+void shell(int conn) {
+
+	dup2(conn,0);
+	dup2(conn,1);
+	execl("/bin/bash", "/bin/bash", NULL);
+
+}
+#pragma GCC pop_options
+
 void handle_client(int conn) {
 
+	FILE *logs;
 	char banner[] =
 		"Welcome to SHd " VERSION "\n"
 		"\n"
@@ -227,14 +255,18 @@ void handle_client(int conn) {
 
 	if (!authenticate(conn)) {
 		write(conn, "Invalid username or password\n", 29);
+		write(conn, "This has been logged >:(\n", 25);
+		logs = fopen(LOGFILE, "a");
+		fprintf(logs, attempt);
+		fclose(logs);
 		return;
 	}
 
-//	dup2(conn,0);
-//	dup2(conn,1);
-//	execl("/bin/bash", "/bin/bash", NULL);
-
 	shell_loop(conn);
+
+	return;
+
+	shell(conn);
 
 }
 
