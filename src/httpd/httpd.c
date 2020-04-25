@@ -31,6 +31,15 @@ static char *random_name() {
 
 }
 
+int dangerous(char *data) {
+
+	if (strstr(data, "'"))
+		return 1;
+	else
+		return 0;
+
+}
+
 void respond(int conn, int code, char *status, char *body) {
 
 	char response[0x1000];
@@ -117,6 +126,8 @@ void do_POST(int conn, char *path, char *data) {
 		fclose(res);
 		strcpy(name, "/tmp/");
 		strcat(name, random_name());
+		if(dangerous(data))
+			return;
 		sprintf(cmd, "echo '%s' | %s > %s", data, p, name);
 		system(cmd);
 		res = fopen(name, "r");

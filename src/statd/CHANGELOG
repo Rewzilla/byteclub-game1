@@ -1,3 +1,8 @@
+Version 3.0
+================================
+Fixed "0000006: buffer overflow in statd"
+Overflow when reading an integer from the client
+
 Version 2.0
 ================================
 Removed APT1 shell.  Opps :(

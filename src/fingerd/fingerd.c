@@ -96,7 +96,7 @@ void strip_hostname(int conn, char *buff) {
 	} while (buff[i++] != '\0');
 
 	if (print) {
-		sprintf(line, "WARNING: Ignoring hostname: %s\n", (char *)(buff + i));
+		snprintf(line, 64, "WARNING: Ignoring hostname: %s\n", (char *)(buff + i));
 		write(conn, line, strlen(line));
 	}
 

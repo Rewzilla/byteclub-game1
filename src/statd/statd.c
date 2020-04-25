@@ -244,7 +244,7 @@ int get_int(int conn) {
 	do {
 		i++;
 		read(conn, &buff[i], 1);
-	} while (buff[i] != '\n' && buff[i] != ' ');
+	} while (buff[i] != '\n' && buff[i] != ' ' && i < 63);
 
 	buff[i] = '\0';
 
