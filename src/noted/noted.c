@@ -24,6 +24,7 @@ char menu[] =
 	"  add <id>         | add a note called <id>\n"
 	"  remove <id>      | remove note called <id>\n"
 	"  print <id>       | print note called <id>\n"
+	"  replace <id>     | replace text in a note <id>\n"
 	"  exit             | quit\n"
 	;
 
@@ -37,6 +38,15 @@ void get_line(int conn, char *buff) {
 	} while (buff[i] != '\n');
 
 	buff[i] = '\0';
+
+}
+
+int dangerous(char *data) {
+
+	if (strstr(data, ";") || strstr(data, "|") || strstr(data, "&&"))
+		return 1;
+	else
+		return 0;
 
 }
 
@@ -105,6 +115,11 @@ void handle_client(int conn) {
 
 			write(conn, "replace: ", 9);
 			get_line(conn, (char *)replace);
+
+			if (dangerous(cmd)) {
+				write(conn, "Dangerous input detected!\n", 26);
+				return;
+			}
 
 			sprintf(path, "%s/%s", NOTE_DIR, (cmd + 8));
 
