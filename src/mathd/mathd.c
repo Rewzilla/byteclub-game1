@@ -68,19 +68,22 @@ void handle_client(int conn) {
 
 	while (1) {
 
-		read(conn, &option, sizeof(option));
+		if (read(conn, &option, sizeof(option)) < sizeof(option))
+			return;
 
 		if (option == 0x00)
 			return;
 
-		read(conn, &len, sizeof(len));
+		if (read(conn, &len, sizeof(len)) < sizeof(len))
+			return;
 
 		if (option == 0xff) {
 			write(conn, nums, sizeof(int) * len);
 			continue;
 		}
 
-		read(conn, nums, sizeof(int) * len);
+		if (read(conn, nums, sizeof(int) * len) < (sizeof(int) * len))
+			return;
 
 		result = ops[(int)option](nums, len);
 

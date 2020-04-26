@@ -1,3 +1,7 @@
+Version 2.0
+================================
+Fixed an infinite loop causing DoS
+
 Version 1.0
 ================================
 Initial release

