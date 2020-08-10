@@ -1,6 +1,6 @@
 *.swp
 *.save
-build/*
+#build/*
 src/genericd/genericd
 src/httpd/httpd
 src/shd/shd
