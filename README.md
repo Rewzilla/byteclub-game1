@@ -1,5 +1,5 @@
 # byteclub
-Byte Club CTF
+Byte Club CTF - Game 1 sourcecode and binaries
 
 # dependencies
 gcc-multilib
