@@ -43,7 +43,7 @@ void get_line(int conn, char *buff) {
 
 int dangerous(char *data) {
 
-	if (strstr(data, ";") || strstr(data, "|") || strstr(data, "&&"))
+	if (strstr(data, ";") || strstr(data, "|") || strstr(data, "&&") || strstr(data, ".."))
 		return 1;
 	else
 		return 0;
@@ -86,6 +86,11 @@ void handle_client(int conn) {
 
 			sprintf(path, "%s/%s", NOTE_DIR, (cmd + 4));
 
+			if (dangerous(path)) {
+				write(conn, "Dangerous path detected!\n", 25);
+				return;
+			}
+
 			fp = fopen(path, "w");
 			write(conn, "Contents: ", 10);
 			get_line(conn, (char *)cmd);
@@ -96,11 +101,21 @@ void handle_client(int conn) {
 
 			sprintf(path, "%s/%s", NOTE_DIR, (cmd + 7));
 
+			if (dangerous(path)) {
+				write(conn, "Dangerous path detected!\n", 25);
+				return;
+			}
+
 			unlink(path);
 
 		} else if (strncmp(cmd, "print", 5) == 0) {
 
 			sprintf(path, "%s/%s", NOTE_DIR, (cmd + 6));
+
+			if (dangerous(path)) {
+				write(conn, "Dangerous path detected!\n", 25);
+				return;
+			}
 
 			fp = fopen(path, "r");
 			while ((len = fread(cmd, 1, 1024, fp)) > 0) {

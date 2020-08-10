@@ -1,3 +1,21 @@
+Version 6.0
+================================
+Fixed "0000015: directory traversal in print function of noted"
+
+Version 5.0
+================================
+Fixed "0000014: directory traversal allows removal of files"
+
+Version 4.0
+================================
+Fixed "0000013: Directory traversal overwrite in add ability"
+Path traversal when adding a note
+
+Version 3.0
+================================
+Fixed "0000010: noted directory traversal"
+directory traversal in the "replace" function
+
 Version 2.0
 ================================
 Fixed "0000008: Noted Remote Code execution"

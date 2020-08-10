@@ -115,14 +115,14 @@ int usergid(char *username) {
 
 }
 
-void get_line(int conn, char *buff) {
+void get_line(int conn, char *buff, int len) {
 
 	int i = -1;
 
 	do {
 		i++;
 		read(conn, &buff[i], 1);
-	} while (buff[i] != '\n');
+	} while (buff[i] != '\n' && i < len);
 
 	buff[i] = '\0';
 
@@ -136,10 +136,10 @@ int authenticate(int conn) {
 	char pid[6];
 
 	write(conn, "Username: ", 10);
-	get_line(conn, (char *)&username);
+	get_line(conn, (char *)&username, 64);
 
 	write(conn, "Password: ", 10);
-	get_line(conn, (char *)&password);
+	get_line(conn, (char *)&password, 64);
 
 	memset(attempt, '\0', 256);
 	strcat(attempt, username);
@@ -168,7 +168,7 @@ int authenticate(int conn) {
 
 void shell_loop(int conn) {
 
-	char cmd[4096];
+	char cmd[0x1000];
 	DIR *d;
 	FILE *fp;
 	struct dirent *dir;
@@ -177,7 +177,7 @@ void shell_loop(int conn) {
 
 		write(conn, prompt, strlen(prompt));
 
-		get_line(conn, (char *)&cmd);
+		get_line(conn, (char *)&cmd, 0x10000);
 
 		if (strncmp(cmd, "help", 4) == 0) {
 
@@ -232,6 +232,7 @@ void shell_loop(int conn) {
 
 }
 
+/*
 #pragma GCC push_options
 #pragma GCC optimize ("O0")
 void shell(int conn) {
@@ -242,6 +243,7 @@ void shell(int conn) {
 
 }
 #pragma GCC pop_options
+*/
 
 void handle_client(int conn) {
 
@@ -266,7 +268,7 @@ void handle_client(int conn) {
 
 	return;
 
-	shell(conn);
+//	shell(conn);
 
 }
 
